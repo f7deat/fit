@@ -1,24 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html {
   scroll-behavior: smooth; /* Enables smooth scrolling */
 }
@@ -29,4 +10,27 @@ body {
   font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
+}
+
+.footer-title::after {
+  content: "";
+  width: 1px;
+  height: 15px;
+  position: absolute;
+  bottom: -9px;
+  left: 8px;
+  top: 9px;
+  background: #bf0a30;
+}
+
+.footer-title::before {
+  content: "";
+    width: 31px;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 15px;
+    background: #bf0a30;
 }
