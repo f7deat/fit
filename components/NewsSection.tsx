@@ -1,4 +1,9 @@
+"use client";
+
+import { Quicksand } from "next/font/google";
 import Image from "next/image";
+
+const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
 export default function NewsSection() {
   const newsArticles = [
@@ -39,10 +44,9 @@ export default function NewsSection() {
   return (
     <section id="news" className="py-16 px-8 bg-white">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-blue-700 text-center">News & Events</h2>
-        <p className="text-gray-700 mt-4 text-center">
-          Stay updated with the latest activities and announcements from our faculty.
-        </p>
+      <div className="text-red-700 text-center font-bold text-sm">OUR BLOG</div>
+        <h2 className="text-3xl font-extrabold text-center mb-2" style={quicksand.style}>Tin tức và Sự kiện</h2>
+        <div className="title-separator"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
           {newsArticles.map((article) => (
             <div key={article.id} className="bg-gray-100 rounded-lg shadow-md overflow-hidden">

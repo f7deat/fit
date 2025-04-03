@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 html {
-  scroll-behavior: smooth; /* Enables smooth scrolling */
+  scroll-behavior: smooth;
+  /* Enables smooth scrolling */
 }
 
 body {
@@ -25,12 +26,38 @@ body {
 
 .footer-title::before {
   content: "";
-    width: 31px;
-    height: 1px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 15px;
-    background: #bf0a30;
+  width: 31px;
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 15px;
+  background: #bf0a30;
+}
+
+.title-separator {
+  background-color: #bf0a30;
+  margin: 0 auto;
+  width: 70px;
+  height: 4px;
+  position: relative;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.title-separator::before {
+  content: "\e648";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -2px;
+  margin: auto;
+  border-radius: 6px;
+  transform: rotate(2deg);
+  font-family: "themify";
+  font-weight: 900;
+  font-size: 45px;
+  color: #fff;
+  text-align: center;
 }

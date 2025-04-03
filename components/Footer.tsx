@@ -16,59 +16,47 @@ export default function Footer() {
           {/* Column 1: Logo */}
           <div>
           <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Về chúng tôi</h3>
-            <Image src="/logo.png" alt="University Logo" width={250} height={50} />
+            <Image src="https://dhhp.edu.vn/fit/checkin.png" alt="University Logo" width={162} height={80} />
             <p className="mt-4 text-sm">
-              Faculty of Information Technology, Hai Phong University. Empowering the next generation of technology leaders.
+            Truyền đạt kiến thức vững chắc để sinh viên vào đời vững vàng! “You can do IT, we are ready to accompany”
             </p>
           </div>
 
           {/* Column 2: Contact Information */}
           <div>
-            <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Contact Us</h3>
-            <p className="flex items-center">
-              <HiOutlineLocationMarker className="mr-2" /> Address: 123 Hai Phong Street, Vietnam
+            <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Liên hệ</h3>
+            <p className="mb-2">
+              <HiOutlineMail className="mr-1 inline" /> Email: kcntt@dhhp.edu.vn
             </p>
-            <p className="flex items-center">
-              <HiOutlineMail className="mr-2" /> Email: info@fit-hpu.edu.vn
+            <p className="mb-2">
+              <HiOutlinePhone className="mr-1 inline" /> Điện thoại: (02253) 549.277
             </p>
-            <p className="flex items-center">
-              <HiOutlinePhone className="mr-2" /> Phone: +84 123 456 789
-            </p>
+            <div className="mb-2">
+              <HiOutlineLocationMarker className="mr-1 inline" /> Địa chỉ: Tòa C3, 171 Phan Đăng Lưu, Kiến An, Hải Phòng
+            </div>
           </div>
 
           {/* Column 3: Quick Links */}
           <div>
-            <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Ngành đào tạo</h3>
+            <ul className="space-y-3">
               <li className="flex items-center">
                 <span className="mr-2 text-[#bf0a30]">
                   <BiStar />
                 </span>
-                <a href="#home" className="hover:underline">Home</a>
+                <a href="https://tuyensinh.dhhp.edu.vn/academic-program/thiet-ke-game-va-multimedia-clc" className="hover:underline">Thiết kế Game và Multimedia</a>
               </li>
               <li className="flex items-center">
                 <span className="mr-2 text-[#bf0a30]">
                   <BiStar />
                 </span>
-                <a href="#about" className="hover:underline">About</a>
+                <a href="https://tuyensinh.dhhp.edu.vn/academic-program/tri-tue-nhan-tao-va-koa-hoc-du-lieu" className="hover:underline">Trí tuệ nhân tạo và koa học dữ liệu</a>
               </li>
               <li className="flex items-center">
                 <span className="mr-2 text-[#bf0a30]">
                   <BiStar />
                 </span>
-                <a href="#programs" className="hover:underline">Programs</a>
-              </li>
-              <li className="flex items-center">
-                <span className="mr-2 text-[#bf0a30]">
-                  <BiStar />
-                </span>
-                <a href="#news" className="hover:underline">News</a>
-              </li>
-              <li className="flex items-center">
-                <span className="mr-2 text-[#bf0a30]">
-                  <BiStar />
-                </span>
-                <a href="#contact" className="hover:underline">Contact</a>
+                <a href="https://tuyensinh.dhhp.edu.vn/academic-program/cong-nghe-thong-tin" className="hover:underline">Công nghệ thông tin</a>
               </li>
             </ul>
           </div>
@@ -76,17 +64,21 @@ export default function Footer() {
           {/* Column 4: Contact Form */}
           <div>
             <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Get in Touch</h3>
-            <form className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-2">
+            <div className="text-slate-100 mb-4">
+              Đăng ký để nhận thông tin mới nhất từ chúng tôi
+            </div>
+            <form className="flex flex-col space-y-4 md:space-y-0 md:flex-row">
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="flex-1 p-2 rounded-md bg-white text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Nhập email của bạn"
+                required
+                className="flex-1 p-3 rounded-l-md bg-white text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="submit"
-                className="bg-white text-blue-700 font-bold px-6 py-2 rounded-md hover:bg-gray-100 transition duration-200"
+                className="bg-red-500 text-white font-bold px-6 py-2 rounded-r-md hover:bg-gray-100 transition duration-200"
               >
-                Subscribe
+                Đăng ký
               </button>
             </form>
           </div>
@@ -96,13 +88,13 @@ export default function Footer() {
       {/* Footer Bottom */}
       <div className="text-center text-sm bg-[#000f21] py-4">
         <div className="flex justify-center space-x-4 mb-4">
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
+          <a href="https://www.facebook.com/fithpu" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
             <FaFacebookF size={20} />
           </a>
           <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
             <FaTwitter size={20} />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
+          <a href="https://www.instagram.com/hpu.off/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
             <FaInstagram size={20} />
           </a>
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">

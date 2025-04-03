@@ -1,33 +1,77 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { Quicksand } from "next/font/google";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
+
+const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 120);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="bg-blue-900 fixed top-0 w-full shadow-md z-50">
-      <div className="container mx-auto text-white p-4 flex justify-between items-center">
+    <header
+      className={`w-full z-50 fixed top-0 transition-colors duration-300 ${isScrolled ? "bg-white text-black shadow-md" : "bg-transparent text-white"
+        }`}
+      style={quicksand.style}
+    >
+      <div className="border-b border-gray-600">
+        <div className="container mx-auto flex justify-between items-center">
+          <div>
+            <HiOutlineLocationMarker className="mr-1 inline" />C3, 171 Phan Đăng Lưu, Kiến An, Hải Phòng
+          </div>
+          <div className="flex justify-end">
+            <a href="https://www.facebook.com/fithpu" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
+              <FaFacebookF size={16} />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4  py-3 border-l border-gray-600">
+              <FaTwitter size={16} />
+            </a>
+            <a href="https://www.instagram.com/hpu.off/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
+              <FaInstagram size={16} />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
+              <FaLinkedinIn size={16} />
+            </a>
+            <a href="#" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
+              <FaSearch size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <a href="#home" className="flex items-center hover:opacity-80 transition-opacity">
-          <Image src="/logo.png" alt="University Logo" width={250} height={50} className="object-contain" />
+          {isScrolled && <Image src='https://dhhp.edu.vn/fit/checkin.png' alt="University Logo" width={162} height={30} className="object-contain" />}
+          {!isScrolled && <Image src='/logo.png' alt="University Logo" width={256} height={47} className="object-contain py-4" />}
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex gap-6 items-center">
-          <a href="#home" className="hover:underline hover:text-blue-300 transition">Home</a>
-          <a href="#about" className="hover:underline hover:text-blue-300 transition">About</a>
-          <a href="#programs" className="hover:underline hover:text-blue-300 transition">Programs</a>
-          <a href="#news" className="hover:underline hover:text-blue-300 transition">News</a>
-          <a href="#contact" className="hover:underline hover:text-blue-300 transition">Contact</a>
+        <nav className="hidden md:flex gap-6 items-center uppercase font-bold">
+          <a href="#home" className="hover:underline hover:text-blue-300 transition">Trang chủ</a>
+          <a href="#about" className="hover:underline hover:text-blue-300 transition">Giới thiệu</a>
+          <a href="#programs" className="hover:underline hover:text-blue-300 transition">Ngành đào tạo</a>
+          <a href="#news" className="hover:underline hover:text-blue-300 transition">Tin tức</a>
           {/* CTA Button */}
           <a
             href="#contact"
-            className="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition"
+            className="bg-red-700 hover:bg-red-600 text-white font-bold py-3 px-8 rounded transition"
           >
-            Contact Us
+            Liên hệ
           </a>
         </nav>
 

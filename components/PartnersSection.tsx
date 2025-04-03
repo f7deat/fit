@@ -5,9 +5,12 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
 import Image from "next/image";
+import { Quicksand } from "next/font/google";
+
+const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
 export default function PartnersSection() {
-const partners = [
+  const partners = [
     { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", link: "https://google.com" },
     { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", link: "https://amazon.com" },
     { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", link: "https://microsoft.com" },
@@ -34,44 +37,48 @@ const partners = [
     { name: "Dropbox", logo: "https://upload.wikimedia.org/wikipedia/commons/7/78/Dropbox_Logo_2017.svg", link: "https://dropbox.com" },
     { name: "GitHub", logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg", link: "https://github.com" },
     { name: "Red Hat", logo: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Red_Hat_logo.svg", link: "https://redhat.com" },
-];
+  ];
 
   return (
-    <section id="partners" className="bg-gray-100 py-10">
-      <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Partners</h2>
-        <Swiper
-          modules={[Autoplay]}
-          autoplay={{
-            delay: 0,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          speed={3000}
-          loop
-          slidesPerView={6}
-          spaceBetween={30}
-          className="partners-swiper"
-        >
-          {partners.concat(partners).map((partner, index) => (
-            <SwiperSlide key={index} className="w-auto">
-              <a
-                href={partner.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block"
-              >
-                <Image
-                  src={partner.logo}
-                  alt={`${partner.name} Logo`}
-                  width={150}
-                  height={100}
-                  className="object-contain h-16 mx-auto"
-                />
-              </a>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+    <section id="partners" className="py-10">
+      <div className="text-center">
+        <div className="text-red-700 text-center font-bold text-sm uppercase mb-2">OUR Partners</div>
+        <h2 className="text-3xl font-extrabold text-center mb-3" style={quicksand.style}>Đối tác liên kết</h2>
+        <div className="title-separator"></div>
+        <div className="pt-10">
+          <Swiper
+            modules={[Autoplay]}
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            speed={3000}
+            loop
+            slidesPerView={6}
+            spaceBetween={30}
+            className="partners-swiper"
+          >
+            {partners.concat(partners).map((partner, index) => (
+              <SwiperSlide key={index} className="w-auto">
+                <a
+                  href={partner.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block"
+                >
+                  <Image
+                    src={partner.logo}
+                    alt={`${partner.name} Logo`}
+                    width={150}
+                    height={100}
+                    className="object-contain h-16 mx-auto"
+                  />
+                </a>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
     </section>
   );
