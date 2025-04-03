@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,6 +7,9 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { Quicksand } from "next/font/google";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import { HiHome } from "react-icons/hi2";
+import Link from "next/link";
+import { BsArrowRight } from "react-icons/bs";
 
 const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
@@ -24,13 +28,13 @@ export default function Header() {
 
   return (
     <header
-      className={`w-full z-50 fixed top-0 transition-colors duration-300 ${isScrolled ? "bg-white text-black shadow-md" : "bg-transparent text-white"
+      className={`w-full z-50 fixed top-0 transition-colors duration-300 ${isScrolled ? "bg-white text-slate-900 shadow-md" : "bg-transparent text-white"
         }`}
       style={quicksand.style}
     >
       <div className="border-b border-gray-600">
         <div className="container mx-auto flex justify-between items-center">
-          <div>
+          <div className="hidden md:block">
             <HiOutlineLocationMarker className="mr-1 inline" />C3, 171 Phan Đăng Lưu, Kiến An, Hải Phòng
           </div>
           <div className="flex justify-end">
@@ -56,20 +60,20 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <a href="#home" className="flex items-center hover:opacity-80 transition-opacity">
-          {isScrolled && <Image src='https://dhhp.edu.vn/fit/checkin.png' alt="University Logo" width={162} height={30} className="object-contain" />}
+          {isScrolled && <img src='https://dhhp.edu.vn/fit/checkin.png' alt="University Logo" width={152} height={30} className="object-contain" />}
           {!isScrolled && <Image src='/logo.png' alt="University Logo" width={256} height={47} className="object-contain py-4" />}
         </a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 items-center uppercase font-bold">
-          <a href="#home" className="hover:underline hover:text-blue-300 transition">Trang chủ</a>
+          <Link href="/" className="hover:underline hover:text-blue-300 transition flex gap-2 items-center"><HiHome /> Trang chủ</Link>
           <a href="#about" className="hover:underline hover:text-blue-300 transition">Giới thiệu</a>
           <a href="#programs" className="hover:underline hover:text-blue-300 transition">Ngành đào tạo</a>
           <a href="#news" className="hover:underline hover:text-blue-300 transition">Tin tức</a>
           {/* CTA Button */}
           <a
             href="#contact"
-            className="bg-red-700 hover:bg-red-600 text-white font-bold py-3 px-8 rounded transition"
+            className="bg-[#bf0a30] hover:bg-red-900 text-white font-bold py-3 px-8 rounded transition"
           >
             Liên hệ
           </a>
@@ -99,11 +103,11 @@ export default function Header() {
       {/* Mobile Navigation */}
       {isMenuOpen && (
         <nav className="md:hidden bg-blue-800 text-white p-4">
-          <a href="#home" className="block py-2 hover:underline hover:text-blue-300 transition">Home</a>
-          <a href="#about" className="block py-2 hover:underline hover:text-blue-300 transition">About</a>
-          <a href="#programs" className="block py-2 hover:underline hover:text-blue-300 transition">Programs</a>
-          <a href="#news" className="block py-2 hover:underline hover:text-blue-300 transition">News</a>
-          <a href="#contact" className="block py-2 hover:underline hover:text-blue-300 transition">Contact</a>
+          <a href="#home" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Trang chủ</a>
+          <a href="#about" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Giới thiệu</a>
+          <a href="#programs" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Ngành đào tạo</a>
+          <a href="#news" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Tin tức</a>
+          <a href="#contact" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Liên hệ</a>
         </nav>
       )}
     </header>

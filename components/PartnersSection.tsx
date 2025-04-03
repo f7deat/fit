@@ -1,10 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
-import Image from "next/image";
 import { Quicksand } from "next/font/google";
 
 const quicksand = Quicksand({ subsets: ["latin-ext"] });
@@ -34,17 +34,17 @@ export default function PartnersSection() {
     { name: "eBay", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg", link: "https://ebay.com" },
     { name: "Slack", logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png", link: "https://slack.com" },
     { name: "Zoom", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg", link: "https://zoom.us" },
-    { name: "Dropbox", logo: "https://upload.wikimedia.org/wikipedia/commons/7/78/Dropbox_Logo_2017.svg", link: "https://dropbox.com" },
     { name: "GitHub", logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg", link: "https://github.com" },
-    { name: "Red Hat", logo: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Red_Hat_logo.svg", link: "https://redhat.com" },
   ];
 
   return (
     <section id="partners" className="py-10">
       <div className="text-center">
-        <div className="text-red-700 text-center font-bold text-sm uppercase mb-2">OUR Partners</div>
-        <h2 className="text-3xl font-extrabold text-center mb-3" style={quicksand.style}>Đối tác liên kết</h2>
-        <div className="title-separator"></div>
+        <div data-aos="fade-up">
+          <div className="text-red-700 text-center font-bold text-sm uppercase mb-2">OUR Partners</div>
+          <h2 className="text-3xl font-extrabold text-center mb-3" style={quicksand.style}>Đối tác liên kết</h2>
+          <div className="title-separator"></div>
+        </div>
         <div className="pt-10">
           <Swiper
             modules={[Autoplay]}
@@ -67,12 +67,13 @@ export default function PartnersSection() {
                   rel="noopener noreferrer"
                   className="inline-block"
                 >
-                  <Image
+                  <img
                     src={partner.logo}
                     alt={`${partner.name} Logo`}
                     width={150}
                     height={100}
                     className="object-contain h-16 mx-auto"
+                    loading="lazy"
                   />
                 </a>
               </SwiperSlide>

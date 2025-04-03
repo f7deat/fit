@@ -1,8 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import { Quicksand } from "next/font/google";
-import Image from "next/image";
 import { BiStar } from "react-icons/bi";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
+import { AOSInit } from "./aos";
 
 const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
@@ -16,7 +17,7 @@ export default function Footer() {
           {/* Column 1: Logo */}
           <div>
           <h3 className="text-xl font-bold mb-4 footer-title relative pl-10 uppercase" style={quicksand.style}>Về chúng tôi</h3>
-            <Image src="https://dhhp.edu.vn/fit/checkin.png" alt="University Logo" width={162} height={80} />
+            <img src="https://dhhp.edu.vn/fit/checkin.png" alt="University Logo" width={162} height={80} loading="lazy" />
             <p className="mt-4 text-sm">
             Truyền đạt kiến thức vững chắc để sinh viên vào đời vững vàng! “You can do IT, we are ready to accompany”
             </p>
@@ -103,6 +104,8 @@ export default function Footer() {
         </div>
         <p>&copy; 2025 Faculty of Information Technology, Hai Phong University. All rights reserved.</p>
       </div>
+      
+      <AOSInit />
     </footer>
   );
 }

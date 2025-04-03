@@ -1,68 +1,62 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { apiArticleList } from "@/services/article";
+import dayjs from "dayjs";
 import { Quicksand } from "next/font/google";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import { FaCalendar, FaEye } from "react-icons/fa6";
 
 const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
+interface ArticleListItem {
+  id: number;
+  thumbnail: string;
+  title: string;
+  description: string;
+  view: number;
+  createdDate: string;
+  url: string;
+}
+
 export default function NewsSection() {
-  const newsArticles = [
-    {
-      id: 1,
-      image: "https://via.placeholder.com/300x200",
-      title: "Faculty Hosts Annual Technology Conference",
-      description: "The Faculty of Information Technology successfully hosted its annual technology conference, bringing together experts and students.",
-      viewCount: 1200,
-      date: "April 1, 2025",
-    },
-    {
-      id: 2,
-      image: "https://via.placeholder.com/300x200",
-      title: "New AI Research Lab Opens at the University",
-      description: "The university has inaugurated a state-of-the-art AI research lab to foster innovation and collaboration in artificial intelligence.",
-      viewCount: 950,
-      date: "March 28, 2025",
-    },
-    {
-      id: 3,
-      image: "https://via.placeholder.com/300x200",
-      title: "Students Win National Programming Contest",
-      description: "A team of students from the Faculty of Information Technology won first place in the national programming contest.",
-      viewCount: 1800,
-      date: "March 20, 2025",
-    },
-    {
-      id: 4,
-      image: "https://via.placeholder.com/300x200",
-      title: "Cybersecurity Workshop Held for Students",
-      description: "The faculty organized a hands-on cybersecurity workshop to equip students with practical skills in network security.",
-      viewCount: 700,
-      date: "March 15, 2025",
-    },
-  ];
+
+  const [articles, setArticles] = useState<ArticleListItem[]>([]);
+
+  useEffect(() => {
+    apiArticleList({ current: 1, pageSize: 3 }).then((res) => setArticles(res.data.data)).catch((err) => console.error(err));
+  }, [])
 
   return (
-    <section id="news" className="py-16 px-8 bg-white">
-      <div className="container mx-auto">
-      <div className="text-red-700 text-center font-bold text-sm">OUR BLOG</div>
-        <h2 className="text-3xl font-extrabold text-center mb-2" style={quicksand.style}>Tin tức và Sự kiện</h2>
-        <div className="title-separator"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-          {newsArticles.map((article) => (
-            <div key={article.id} className="bg-gray-100 rounded-lg shadow-md overflow-hidden">
-              <Image
-                src={article.image}
+    <section id="news" className="py-16 px-8">
+      <div className="container mx-auto max-w-7xl">
+        <div data-aos="fade-up">
+          <div className="text-red-700 text-center font-bold text-sm">OUR BLOG</div>
+          <h2 className="text-3xl font-extrabold text-center mb-2" style={quicksand.style}>Tin tức và Sự kiện</h2>
+          <div className="title-separator"></div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8" data-aos="fade-up">
+          {articles.map((article) => (
+            <div
+              key={article.id}
+              className="relative rounded-lg shadow-md overflow-hidden bg-white transform transition-transform duration-300 hover:scale-105"
+            >
+              <img
+                src={article.thumbnail}
                 alt={article.title}
                 width={300}
-                height={200}
-                className="w-full h-48 object-cover"
+                height={250}
+                className="w-full h-64 object-cover"
+                loading="lazy"
               />
               <div className="p-4">
-                <h3 className="text-lg font-bold text-blue-700 line-clamp-2">{article.title}</h3>
-                <p className="text-sm text-gray-700 mt-2 line-clamp-3">{article.description}</p>
+                <a href={`https://dhhp.edu.vn/post/${article.url}-${article.id}.html`} target="_blank" rel="noopener noreferrer" className="hover:text-red-700 transition-colors duration-300">
+                  <h3 className="text-xl font-bold line-clamp-2" style={quicksand.style}>{article.title}</h3>
+                </a>
+                <p className="text-gray-500 mt-2 line-clamp-3">{article.description}</p>
                 <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
-                  <span>{article.date}</span>
-                  <span>{article.viewCount} views</span>
+                  <span className="flex gap-1 items-center"><FaCalendar /> {dayjs(article.createdDate).format('DD/MM/YYYY')}</span>
+                  <span className="flex gap-1 items-center">{article.view}<FaEye /></span>
                 </div>
               </div>
             </div>
