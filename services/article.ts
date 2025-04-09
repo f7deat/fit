@@ -4,7 +4,15 @@ export async function apiArticleList(params: { current: number; pageSize: number
     return axios(`https://dhhp.edu.vn/api/article/list`, { 
         params: {
             ...params,
-            type: 2
+            departmentId: 4
         }
      });
+}
+
+export async function apiGetArticleByUrl(slug: string) {
+    return axios.get(`https://dhhp.edu.vn/api/article/${slug}`);
+}
+
+export async function apiGetMetaArticle(slug: string) {
+    return axios.get(`https://dhhp.edu.vn/api/post/meta/${slug}`);
 }

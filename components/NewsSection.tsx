@@ -4,6 +4,7 @@
 import { apiArticleList } from "@/services/article";
 import dayjs from "dayjs";
 import { Quicksand } from "next/font/google";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaCalendar, FaEye } from "react-icons/fa6";
 
@@ -50,9 +51,9 @@ export default function NewsSection() {
                 loading="lazy"
               />
               <div className="p-4">
-                <a href={`https://dhhp.edu.vn/post/${article.url}-${article.id}.html`} target="_blank" rel="noopener noreferrer" className="hover:text-red-700 transition-colors duration-300">
+                <Link href={`/article/${article.url}`}>
                   <h3 className="text-xl font-bold line-clamp-2" style={quicksand.style}>{article.title}</h3>
-                </a>
+                </Link>
                 <p className="text-gray-500 mt-2 line-clamp-3">{article.description}</p>
                 <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
                   <span className="flex gap-1 items-center"><FaCalendar /> {dayjs(article.createdDate).format('DD/MM/YYYY')}</span>
