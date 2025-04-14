@@ -1,6 +1,4 @@
 import Breadcrumb from "@/components/common/breadcrumb";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { apiGetArticleByUrl, apiGetMetaArticle } from "@/services/article";
 import dayjs from "dayjs";
 import { Metadata } from "next";
@@ -51,7 +49,6 @@ const Page: React.FC<{ params: Params }> = async ({ params }) => {
 
     return (
         <>
-            <Header />
             <Breadcrumb items={[
                 {
                     label: "Trang chủ",
@@ -81,7 +78,6 @@ const Page: React.FC<{ params: Params }> = async ({ params }) => {
                     </div>
                 </div>
             </main>
-            <Footer />
         </>
     )
 }

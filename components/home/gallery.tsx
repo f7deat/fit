@@ -1,14 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+
 import { apiGalleryList } from "@/services/gallery";
 import { Quicksand } from "next/font/google";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { BiArrowFromLeft, BiArrowToRight } from "react-icons/bi";
 
 const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
-const Gallery: React.FC = async () => {
-    const response = await apiGalleryList({ current: 1, pageSize: 3 });
-    const { data } = response.data;
+const Gallery: React.FC = () => {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        apiGalleryList({ current: 1, pageSize: 3 }).then((response) => setData(response.data.data));
+    }, []);
 
     return (
         <div className="px-4">
@@ -37,7 +44,7 @@ const Gallery: React.FC = async () => {
                 </div>
             </div>
             <div className="flex justify-center mb-10 2xl:mb-20">
-                <Link href="#" className="bg-[#bf0a30] text-white uppercase px-6 py-2 font-semibold text-sm flex gap-2 items-center hover:bg-red-600"><BiArrowFromLeft /> Xem tất cả <BiArrowToRight /></Link>
+                <Link href="/gallery" className="bg-[#bf0a30] text-white uppercase px-6 py-2 font-semibold text-sm flex gap-2 items-center hover:bg-red-600"><BiArrowFromLeft /> Xem tất cả <BiArrowToRight /></Link>
             </div>
         </div>
     );
