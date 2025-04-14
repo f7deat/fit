@@ -59,10 +59,10 @@ export default function Header() {
 
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <a href="#home" className="flex items-center hover:opacity-80 transition-opacity">
+        <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           {isScrolled && <img src='https://dhhp.edu.vn/fit/checkin.png' alt="University Logo" width={152} height={30} className="object-contain" />}
           {!isScrolled && <Image src='/logo.png' alt="University Logo" width={256} height={47} className="object-contain py-4" />}
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 items-center uppercase font-bold">
@@ -103,7 +103,7 @@ export default function Header() {
       {/* Mobile Navigation */}
       {isMenuOpen && (
         <nav className="md:hidden bg-blue-800 text-white p-4">
-          <a href="#home" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Trang chủ</a>
+          <Link href="/" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Trang chủ</Link>
           <a href="#about" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Giới thiệu</a>
           <a href="#programs" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Ngành đào tạo</a>
           <a href="#news" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Tin tức</a>

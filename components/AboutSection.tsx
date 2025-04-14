@@ -8,7 +8,7 @@ const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
 export default function AboutSection() {
   return (
-    <section id="about" className="pt-40 pb-20 px-8 bg-gray-50">
+    <section id="about" className="pt-40 pb-20 px-8 bg-gray-50 mb-10 2xl:mb-20">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
         {/* Video Content */}
