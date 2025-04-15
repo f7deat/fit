@@ -69,7 +69,7 @@ export default function Header() {
           <Link href="/" className="hover:underline hover:text-blue-300 transition flex gap-2 items-center"><HiHome /> Trang chủ</Link>
           <a href="#about" className="hover:underline hover:text-blue-300 transition">Giới thiệu</a>
           <a href="#programs" className="hover:underline hover:text-blue-300 transition">Ngành đào tạo</a>
-          <a href="#news" className="hover:underline hover:text-blue-300 transition">Tin tức</a>
+          <Link href="/article" className="hover:underline hover:text-blue-300 transition">Tin tức</Link>
           {/* CTA Button */}
           <a
             href="#contact"
@@ -106,7 +106,7 @@ export default function Header() {
           <Link href="/" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Trang chủ</Link>
           <a href="#about" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Giới thiệu</a>
           <a href="#programs" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Ngành đào tạo</a>
-          <a href="#news" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Tin tức</a>
+          <Link href="/article" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Tin tức</Link>
           <a href="#contact" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Liên hệ</a>
         </nav>
       )}

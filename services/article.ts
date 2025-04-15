@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function apiArticleList(params: { current: number; pageSize: number }) {
+export async function apiArticleList(params: { current: number; pageSize: number, categoryId?: number }) {
     return axios(`https://dhhp.edu.vn/api/article/list`, { 
         params: {
             ...params,
