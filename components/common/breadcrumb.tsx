@@ -10,7 +10,7 @@ export default function Breadcrumb({ items, title }: BreadcrumbProps) {
         <div
             className="relative bg-cover bg-center"
             style={{
-                backgroundImage: "url('/hero-bg.png')"
+                backgroundImage: "url('/hero-bg.jpg')"
             }}
         >
             {/* Overlay */}
