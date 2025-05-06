@@ -67,7 +67,16 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 items-center uppercase font-bold">
           <Link href="/" className="hover:underline hover:text-blue-300 transition flex gap-2 items-center"><HiHome /> Trang chủ</Link>
-          <a href="#about" className="hover:underline hover:text-blue-300 transition">Giới thiệu</a>
+          <div className="relative group">
+            <button className="hover:underline hover:text-blue-300 transition flex items-center gap-1 uppercase">
+              Giới thiệu
+            </button>
+            <div className="absolute left-0 mt-2 w-50 bg-white text-slate-900 rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50">
+              <Link href="/lecturer" className="block px-4 py-2 hover:bg-gray-100">Đội ngũ Giảng viên</Link>
+              <Link href="/about" className="block px-4 py-2 hover:bg-gray-100">Về chúng tôi</Link>
+            </div>
+          </div>
+
           <a href="#programs" className="hover:underline hover:text-blue-300 transition">Ngành đào tạo</a>
           <Link href="/article" className="hover:underline hover:text-blue-300 transition">Tin tức</Link>
           {/* CTA Button */}
