@@ -72,7 +72,7 @@ export default function Header() {
               Giới thiệu
             </button>
             <div className="absolute left-0 mt-2 w-50 bg-white text-slate-900 rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50">
-              <Link href="/about" className="block px-4 py-2 hover:bg-gray-100">Về chúng tôi</Link>
+              <Link href="/page/lich-su-phat-trien" className="block px-4 py-2 hover:bg-gray-100">Lịch sử phát triển</Link>
               <Link href="/lecturer" className="block px-4 py-2 hover:bg-gray-100">Đội ngũ Giảng viên</Link>
             </div>
           </div>
