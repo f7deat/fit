@@ -40,7 +40,7 @@ export default function HeroSection() {
               </div>
             </div>
             <Image
-              src="/hero-bg.jpg"
+              src="/hero-bg.png"
               alt="Students learning"
               width={1920}
               height={800}

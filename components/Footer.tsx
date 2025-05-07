@@ -98,7 +98,7 @@ export default function Footer() {
           <a href="https://www.instagram.com/hpu.off/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
             <FaInstagram size={20} />
           </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
+          <a href="https://www.linkedin.com/company/hai-phong-university/" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
             <FaLinkedinIn size={20} />
           </a>
         </div>

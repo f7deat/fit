@@ -47,7 +47,7 @@ export default function Header() {
             <a href="https://www.instagram.com/hpu.off/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
               <FaInstagram size={16} />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
+            <a href="https://www.linkedin.com/company/hai-phong-university/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
               <FaLinkedinIn size={16} />
             </a>
             <a href="#" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
@@ -61,7 +61,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           {isScrolled && <img src='https://dhhp.edu.vn/fit/checkin.png' alt="University Logo" width={152} height={30} className="object-contain" />}
-          {!isScrolled && <Image src='/logo.png' alt="University Logo" width={256} height={47} className="object-contain py-4" />}
+          {!isScrolled && <Image src='/logo.png' alt="University Logo" width={80} height={47} className="object-contain py-4" />}
         </Link>
 
         {/* Desktop Navigation */}
