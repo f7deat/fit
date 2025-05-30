@@ -34,9 +34,9 @@ export default function HeroSection() {
                 <p className="text-lg text-white" data-aos="fade-up" data-aos-delay="400">
                 Truyền đạt kiến thức vững chắc để sinh viên vào đời vững vàng!
                 </p>
-                <button className="mt-6 bg-[#bf0a30] hover:bg-red-900 text-white font-bold py-2 md:py-4 px-8 rounded transition" data-aos="fade-up" data-aos-delay="600">
+                <a href="https://zalo.me/g/ybwswy123" target="_blank" rel="noopener noreferrer" className="mt-6 bg-[#bf0a30] hover:bg-red-900 text-white font-bold py-2 md:py-4 px-8 rounded transition" data-aos="fade-up" data-aos-delay="600">
                   Liên hệ với chúng tôi
-                </button>
+                </a>
               </div>
             </div>
             <Image
