@@ -7,15 +7,16 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { Quicksand } from "next/font/google";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
-import { HiHome } from "react-icons/hi2";
 import Link from "next/link";
-import { BsArrowRight } from "react-icons/bs";
+import { BsCaretDown, BsCaretRight } from "react-icons/bs";
+import { apiMenuList } from "@/services/menu";
 
 const quicksand = Quicksand({ subsets: ["latin-ext"] });
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menus, setMenus] = useState<Array<{ id: number; name: string; url: string, children: Array<{ id: number; name: string; url: string }> }>>([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +25,15 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchMenus = async () => {
+      const response = await apiMenuList();
+      setMenus(response.data.data);
+    };
+
+    fetchMenus();
   }, []);
 
   return (
@@ -61,24 +71,32 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
           {isScrolled && <img src='https://dhhp.edu.vn/fit/checkin.png' alt="University Logo" width={152} height={30} className="object-contain" />}
-          {!isScrolled && <Image src='/logo.png' alt="University Logo" width={80} height={47} className="object-contain py-4" />}
+          {!isScrolled && <Image src='/logo.png' alt="University Logo" width={80} height={47} className="object-contain md:py-4 py-2" />}
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 items-center uppercase font-bold">
-          <Link href="/" className="hover:underline hover:text-blue-300 transition flex gap-2 items-center"><HiHome /> Trang chủ</Link>
-          <div className="relative group">
-            <button className="hover:underline hover:text-blue-300 transition flex items-center gap-1 uppercase">
-              Giới thiệu
-            </button>
-            <div className="absolute left-0 mt-2 w-50 bg-white text-slate-900 rounded shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-300 z-50">
-              <Link href="/page/lich-su-phat-trien" className="block px-4 py-2 hover:bg-gray-100">Lịch sử phát triển</Link>
-              <Link href="/lecturer" className="block px-4 py-2 hover:bg-gray-100">Đội ngũ Giảng viên</Link>
-            </div>
-          </div>
-
-          <a href="#programs" className="hover:underline hover:text-blue-300 transition">Ngành đào tạo</a>
-          <Link href="/article" className="hover:underline hover:text-blue-300 transition">Tin tức</Link>
+          {menus.map((menu) => {
+            if (menu.children && menu.children.length > 0) {
+              return (
+                <div key={menu.id} className="relative group">
+                  <span className="hover:underline hover:text-blue-300 transition cursor-pointer py-3 flex gap-2 items-center">{menu.name} <BsCaretDown /></span>
+                  <div className="absolute left-0 top-full hidden group-hover:block bg-white text-slate-900 shadow-lg rounded-lg p-4 min-w-64">
+                    {menu.children.map((child) => (
+                      <Link key={child.id} href={child.url} className="flex items-center gap-2 py-1 hover:underline hover:text-blue-300 transition">
+                        <BsCaretRight /> {child.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            return ((
+              <Link key={menu.id} href={menu.url} className="hover:underline hover:text-blue-300 transition">
+                {menu.name}
+              </Link>
+            ))
+          })}
           {/* CTA Button */}
           <a
             href="#contact"
@@ -112,11 +130,27 @@ export default function Header() {
       {/* Mobile Navigation */}
       {isMenuOpen && (
         <nav className="md:hidden bg-blue-800 text-white p-4">
-          <Link href="/" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Trang chủ</Link>
-          <a href="#about" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Giới thiệu</a>
-          <a href="#programs" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Ngành đào tạo</a>
-          <Link href="/article" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Tin tức</Link>
-          <a href="#contact" className="block py-2 hover:underline hover:text-blue-300 transition flex items-center gap-2"><BsArrowRight />Liên hệ</a>
+          {menus.map((menu) => {
+            if (menu.children && menu.children.length > 0) {
+              return (
+                <div key={menu.id} className="relative mb-4">
+                  <span className="block py-2 hover:underline hover:text-blue-300 transition cursor-pointer">{menu.name}</span>
+                  <div className="pl-4">
+                    {menu.children.map((child) => (
+                      <Link key={child.id} href={child.url} className="block py-1 hover:underline hover:text-blue-300 transition">
+                        {child.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <Link key={menu.id} href={menu.url} className="block py-2 hover:underline hover:text-blue-300 transition">
+                {menu.name}
+              </Link>
+            );
+          })}
         </nav>
       )}
     </header>
