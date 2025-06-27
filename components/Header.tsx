@@ -81,10 +81,10 @@ export default function Header() {
               return (
                 <div key={menu.id} className="relative group">
                   <span className="hover:underline hover:text-blue-300 transition cursor-pointer py-3 flex gap-2 items-center">{menu.name} <BsCaretDown /></span>
-                  <div className="absolute left-0 top-full hidden group-hover:block bg-white text-slate-900 shadow-lg rounded-lg p-4 min-w-64">
+                  <div className="absolute left-0 top-full hidden group-hover:block bg-white text-slate-900 shadow-lg rounded-lg p-4 min-w-80">
                     {menu.children.map((child) => (
-                      <Link key={child.id} href={child.url} className="flex items-center gap-2 py-1 hover:underline hover:text-blue-300 transition">
-                        <BsCaretRight /> {child.name}
+                      <Link key={child.id} href={child.url || '#'} className="py-1 hover:underline hover:text-red-500 transition block">
+                        <BsCaretRight className="inline" /> {child.name}
                       </Link>
                     ))}
                   </div>
@@ -92,7 +92,7 @@ export default function Header() {
               );
             }
             return ((
-              <Link key={menu.id} href={menu.url} className="hover:underline hover:text-blue-300 transition">
+              <Link key={menu.id} href={menu.url || '#'} className="hover:underline hover:text-blue-300 transition">
                 {menu.name}
               </Link>
             ))
