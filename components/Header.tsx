@@ -98,12 +98,7 @@ export default function Header() {
             ))
           })}
           {/* CTA Button */}
-          <a
-            href="#contact"
-            className="bg-[#bf0a30] hover:bg-red-900 text-white font-bold py-3 px-8 rounded transition"
-          >
-            Liên hệ
-          </a>
+           <Link href="/contact" className="bg-[#bf0a30] hover:bg-red-900 text-white font-bold py-3 px-8 rounded transition">Liên hệ</Link>
         </nav>
 
         {/* Mobile Menu Button */}
