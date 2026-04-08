@@ -6,7 +6,7 @@ import {
   HiOutlinePhone,
   HiOutlineMail,
 } from "react-icons/hi";
-import { SHADOWS, TRANSITIONS } from "../constants/theme";
+
 
 type ContactInfoLine = {
   label: string;
@@ -48,7 +48,7 @@ export default function ContactInfoCard({
     <div
       className={`
         relative rounded-2xl p-10 text-center text-white overflow-hidden 
-        ${SHADOWS.card} ${TRANSITIONS.default} ${SHADOWS.cardHover}
+        shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-300 ease-in-out hover:shadow-[0_15px_50px_rgba(0,0,0,0.18)]
         transform hover:scale-[1.02] cursor-default
       `}
       onMouseEnter={() => setIsHovered(true)}
@@ -57,7 +57,7 @@ export default function ContactInfoCard({
       {backgroundImage && (
         <>
           <div
-            className={`absolute inset-0 bg-cover bg-center ${TRANSITIONS.default} ${
+            className={`absolute inset-0 bg-cover bg-center transition-all duration-300 ease-in-out ${
               isHovered ? "scale-110" : "scale-100"
             }`}
             style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -77,7 +77,7 @@ export default function ContactInfoCard({
           <div
             className={`
               bg-white/20 backdrop-blur-sm rounded-full p-3.5 border border-white/30
-              ${TRANSITIONS.default} ${
+             transition-all duration-300 ease-in-out ${
                 isHovered ? "scale-110 rotate-6" : "scale-100 rotate-0"
               }
             `}

@@ -74,20 +74,22 @@ export default function ContactPage() {
         />
       </section>
 
-      {/* Map giữ như bạn đang có */}
-      <section className="max-w-6xl mx-auto px-4 pb-16">
-        <div className="w-full h-[350px] bg-gray-200 rounded-2xl overflow-hidden shadow-md">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3729.6043989960267!2d106.62390099999999!3d20.8072865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314a7735d162afdb%3A0x70df39254ee1c357!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBI4bqjaSBQaMOybmc!5e0!3m2!1svi!2s!4v1743655123598!5m2!1svi!2s"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
-      </section>
+      {/* Map  */}
+        {/* Map Section */}
+        <section className={`max-w-6xl mx-auto px-4 mb-16`}>
+          <div className="w-full h-[400px] bg-gray-200 rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.12)] hover:shadow-[0_15px_50px_rgba(0,0,0,0.18)] transition-all duration-300">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3729.6043994712804!2d106.62132607517024!3d20.807286480787184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314a7735d162afdb%3A0x70df39254ee1c357!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBI4bqjaSBQaMOybmc!5e0!3m2!1svi!2s!4v1775530649115!5m2!1svi!2s"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Church Location Map"
+            />
+          </div>
+        </section>
     </main>
   );
 }
