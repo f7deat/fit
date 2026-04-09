@@ -179,15 +179,7 @@ export default function ContactFormSection({
               <Button
                 htmlType="submit"
                 disabled={isSubmitting || isSuccess}
-                icon={
-                  isSubmitting ? (
-                    <SyncOutlined spin />
-                  ) : isSuccess ? (
-                    <CheckCircleFilled />
-                  ) : (
-                    <SendOutlined />
-                  )
-                }
+                loading={isSubmitting}
                 className="!inline-flex !items-center !gap-2 !bg-[#b91c3b] hover:!bg-[#9a1530] active:!bg-[#7f1129] disabled:!opacity-60 disabled:!cursor-not-allowed !text-white !px-8 !py-3 !h-auto !rounded !border-0 !shadow-none transition-colors duration-300 !uppercase tracking-widest !text-sm"
               >
                 {isSubmitting
