@@ -1,330 +1,298 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { HiCheckCircle, HiOutlineRefresh } from "react-icons/hi";
-import { notification, message } from 'antd';
+import { useState } from "react";
+import { Form, Input, notification, message } from "antd";
+import {
+  CheckCircleFilled,
+  SyncOutlined,
+  SendOutlined,
+} from "@ant-design/icons";
 
-interface FormData {
+interface FormValues {
   name: string;
   email: string;
   phone: string;
   message: string;
 }
 
-interface FormErrors {
-  [key: string]: string;
-}
-
 interface ContactFormSectionProps {
-  /**
-   * Image URL to display alongside the form
-   */
   imageUrl: string;
-  /**
-   * Alt text for the image
-   */
   imageAlt?: string;
 }
 
-export default function ContactFormSection({ 
-  imageUrl, 
-  imageAlt = 'Contact us' 
-}: ContactFormSectionProps) {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
+interface UnderlineFieldProps {
+  fieldName: keyof FormValues;
+  children: React.ReactElement;
+}
 
-  const [errors, setErrors] = useState<FormErrors>({});
+function UnderlineField({
+  fieldName,
+  children,
+}: UnderlineFieldProps) {
+  return (
+    <Form.Item noStyle shouldUpdate>
+      {({ getFieldError, isFieldTouched }) => {
+        const errors = isFieldTouched(fieldName)
+          ? getFieldError(fieldName)
+          : [];
+        const hasError = errors.length > 0;
+
+        return (
+          <div className="mb-5">
+            <div
+              className={[
+                "border-b transition-all duration-300 ease-in-out",
+                hasError ? "border-red-500" : "border-gray-300",
+              ].join(" ")}
+            >
+              {children}
+            </div>
+
+            <div
+              className={[
+                "grid transition-all duration-300 ease-in-out",
+                hasError
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0",
+              ].join(" ")}
+            >
+              <div className="overflow-hidden">
+                <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5">
+                  <span className="inline-block w-1 h-1 rounded-full bg-red-500 shrink-0" />
+                  {errors[0] || "\u00A0"}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      }}
+    </Form.Item>
+  );
+}
+
+const rawInputCls =
+  "w-full !bg-transparent !border-0 !shadow-none !outline-none !text-gray-800 !text-sm !px-0 !py-3 placeholder-gray-400";
+
+export default function ContactFormSection({
+  imageUrl,
+  imageAlt = "Contact us",
+}: ContactFormSectionProps) {
+  const [form] = Form.useForm<FormValues>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
+  const maxLength = 500;
 
-  const MAX_MESSAGE_LENGTH = 500;
+  const messageValue = Form.useWatch("message", form) ?? "";
 
-  const validateField = (name: string, value: string): string => {
-    switch (name) {
-      case 'name':
-        if (!value.trim()) return 'Name is required';
-        if (value.trim().length < 2) return 'Name must be at least 2 characters';
-        return '';
-      
-      case 'email':
-        if (!value.trim()) return 'Email is required';
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Please enter a valid email';
-        return '';
-      
-      case 'phone':
-        if (!value.trim()) return 'Phone is required';
-        if (!/^[\d\s\-\+\(\)]+$/.test(value)) return 'Please enter a valid phone number';
-        return '';
-      
-      case 'message':
-        if (!value.trim()) return 'Message is required';
-        if (value.trim().length < 10) return 'Message must be at least 10 characters';
-        if (value.length > MAX_MESSAGE_LENGTH) return `Message must be less than ${MAX_MESSAGE_LENGTH} characters`;
-        return '';
-      
-      default:
-        return '';
-    }
-  };
-
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-    
-    Object.keys(formData).forEach((key) => {
-      const error = validateField(key, formData[key as keyof FormData]);
-      if (error) newErrors[key] = error;
-    });
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      message.error({
-        content: 'Vui lòng sửa lỗi trước khi gửi',
-        duration: 3,
-        icon: <span className="text-red-500">⚠️</span>,
-      });
-      return;
-    }
-
+  const handleFinish = async (values: FormValues) => {
     setIsSubmitting(true);
 
-    // Simulate API call
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      console.log('Form submitted:', formData);
-      
+      console.log("Form submitted:", values);
+
       setIsSuccess(true);
-      
-      // Success notification with Ant Design
+
       notification.success({
-        message: 'Thông báo đã được gửi thành công',
-        description: 'Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ liên lạc lại với bạn trong thời gian sớm nhất.',
-        icon: <HiCheckCircle style={{ color: '#52c41a' }} />,
-        placement: 'topRight',
+        title: "Thông báo đã được gửi thành công",
+        description:
+          "Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ liên lạc lại với bạn trong thời gian sớm nhất.",
+        icon: (
+          <CheckCircleFilled style={{ color: "#52c41a" }} />
+        ),
+        placement: "topRight",
         duration: 4,
-        style: {
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-        },
       });
 
-      // Reset form after success
       setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          message: '',
-        });
-        setErrors({});
-        setTouchedFields(new Set());
+        form.resetFields();
         setIsSuccess(false);
       }, 2000);
-      
-    } catch (error) {
+    } catch {
       notification.error({
-        message: 'Không thể gửi tin nhắn',
-        description: 'Đã xảy ra lỗi khi gửi tin nhắn của bạn. Vui lòng thử lại sau.',
-        placement: 'topRight',
+        title: "Không thể gửi tin nhắn",
+        description:
+          "Đã xảy ra lỗi khi gửi tin nhắn của bạn. Vui lòng thử lại sau.",
+        placement: "topRight",
         duration: 4,
-        style: {
-          borderRadius: '8px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-        },
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Real-time validation for touched fields
-    if (touchedFields.has(name)) {
-      const error = validateField(name, value);
-      setErrors((prev) => ({
-        ...prev,
-        [name]: error,
-      }));
-    }
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    
-    setTouchedFields((prev) => new Set(prev).add(name));
-    
-    const error = validateField(name, value);
-    setErrors((prev) => ({
-      ...prev,
-      [name]: error,
-    }));
-  };
-
-  const getInputClasses = (fieldName: string) => {
-    const baseClasses = `w-full px-5 py-3.5 border rounded-lg transition-all duration-300 ease-in-out bg-white text-gray-800 placeholder-gray-400 focus:outline-none`;
-    
-    if (errors[fieldName] && touchedFields.has(fieldName)) {
-      return `${baseClasses} border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20`;
-    }
-    
-    if (touchedFields.has(fieldName) && formData[fieldName as keyof FormData] && !errors[fieldName]) {
-      return `${baseClasses} border-green-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/20`;
-    }
-    
-    return `${baseClasses} border-gray-200 focus:border-[#b91c3b] focus:ring-2 focus:ring-[#b91c3b]/20`;
+  const handleFinishFailed = () => {
+    message.error({
+      content: "Vui lòng sửa lỗi trước khi gửi",
+      duration: 3,
+    });
   };
 
   return (
-    <div className={`bg-white rounded-2xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-300 ease-in-out hover:shadow-2xl`}>
-      <div className="grid grid-cols-1 lg:grid-cols-2">
-        {/* Form Section */}
-        <div className="p-8 lg:p-12">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name Field */}
-            <div>
-              <input
-                type="text"
+    <div className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)] transition-shadow duration-300 group">
+      <div className="flex flex-col lg:flex-row items-stretch">
+        <div className="flex-1 px-10 py-12 lg:px-14">
+          <Form
+            form={form}
+            initialValues={{
+              name: "",
+              email: "",
+              phone: "",
+              message: "",
+            }}
+            onFinish={handleFinish}
+            onFinishFailed={handleFinishFailed}
+            requiredMark={false}
+            validateTrigger="onBlur"
+          >
+            <></>
+            <UnderlineField fieldName="name">
+              <Form.Item
                 name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-                className={getInputClasses('name')}
-                aria-invalid={!!errors.name}
-                aria-describedby={errors.name ? 'name-error' : undefined}
-              />
-              {errors.name && touchedFields.has('name') && (
-                <p id="name-error" className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-                  <span className="inline-block w-1 h-1 bg-red-500 rounded-full" />
-                  {errors.name}
-                </p>
-              )}
-            </div>
-
-            {/* Email Field */}
-            <div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-                className={getInputClasses('email')}
-                aria-invalid={!!errors.email}
-                aria-describedby={errors.email ? 'email-error' : undefined}
-              />
-              {errors.email && touchedFields.has('email') && (
-                <p id="email-error" className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-                  <span className="inline-block w-1 h-1 bg-red-500 rounded-full" />
-                  {errors.email}
-                </p>
-              )}
-            </div>
-
-            {/* Phone Field */}
-            <div>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone"
-                value={formData.phone}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                disabled={isSubmitting}
-                className={getInputClasses('phone')}
-                aria-invalid={!!errors.phone}
-                aria-describedby={errors.phone ? 'phone-error' : undefined}
-              />
-              {errors.phone && touchedFields.has('phone') && (
-                <p id="phone-error" className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-                  <span className="inline-block w-1 h-1 bg-red-500 rounded-full" />
-                  {errors.phone}
-                </p>
-              )}
-            </div>
-
-            {/* Message Field with Character Counter */}
-            <div>
-              <div className="relative">
-                <textarea
-                  name="message"
-                  placeholder="Your message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                noStyle
+                rules={[
+                  {
+                    required: true,
+                    message: "Trường name là bắt buộc",
+                  },
+                  {
+                    min: 2,
+                    message:
+                      "Trường tên phải có trên 2 kí tự",
+                  },
+                  {
+                    whitespace: true,
+                    message: "Tên không được để trống.",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="Name"
                   disabled={isSubmitting}
-                  rows={6}
-                  maxLength={MAX_MESSAGE_LENGTH}
-                  className={`${getInputClasses('message')} resize-none`}
-                  aria-invalid={!!errors.message}
-                  aria-describedby={errors.message ? 'message-error' : 'message-counter'}
+                  className={rawInputCls}
                 />
-                <div className="absolute bottom-3 right-3 text-xs text-gray-400">
-                  {formData.message.length}/{MAX_MESSAGE_LENGTH}
-                </div>
-              </div>
-              {errors.message && touchedFields.has('message') && (
-                <p id="message-error" className="text-red-500 text-xs mt-1.5 flex items-center gap-1">
-                  <span className="inline-block w-1 h-1 bg-red-500 rounded-full" />
-                  {errors.message}
-                </p>
-              )}
-            </div>
+              </Form.Item>
+            </UnderlineField>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting || isSuccess}
-              className={`
-                bg-[#b91c3b] text-white px-10 py-3.5 rounded-lg
-                hover:bg-[#a01830] transition-all duration-300 ease-in-out
-                uppercase tracking-wide font-medium text-sm
-                disabled:opacity-50 disabled:cursor-not-allowed
-               shadow-[0_10px_40px_rgba(0,0,0,0.12)] hover:shadow-xl
-                flex items-center justify-center gap-2
-                min-w-[140px]
-              `}
-            >
-              {isSubmitting && <HiOutlineRefresh className="w-4 h-4 animate-spin" />}
-              {isSuccess && <HiOutlineRefresh className="w-4 h-4" />}
-              {isSubmitting ? 'Sending...' : isSuccess ? 'Sent!' : 'Send Now'}
-            </button>
-          </form>
+            <UnderlineField fieldName="email">
+              <Form.Item
+                name="email"
+                noStyle
+                rules={[
+                  {
+                    required: true,
+                    message: "Trường Email là bắt buộc",
+                  },
+                  {
+                    type: "email",
+                    message:
+                      "Vui lòng nhập địa chỉ email hợp lệ.",
+                  },
+                ]}
+              >
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  disabled={isSubmitting}
+                  className={rawInputCls}
+                />
+              </Form.Item>
+            </UnderlineField>
+
+            <UnderlineField fieldName="phone">
+              <Form.Item
+                name="phone"
+                noStyle
+                rules={[
+                  {
+                    required: true,
+                    message: "Trường Số điện thoại là bắt buộc",
+                  },
+                  {
+                    pattern: /^[\d\s\-\+\(\)]+$/,
+                    message:
+                      "Vui lòng nhập số điện thoại hợp lệ.",
+                  },
+                ]}
+              >
+                <Input
+                  type="tel"
+                  placeholder="Phone"
+                  disabled={isSubmitting}
+                  className={rawInputCls}
+                />
+              </Form.Item>
+            </UnderlineField>
+
+            <UnderlineField fieldName="message">
+              <>
+                <Form.Item
+                  name="message"
+                  noStyle
+                  rules={[
+                    {
+                      required: true,
+                      message: "Thông báo là bắt buộc",
+                    },
+                    {
+                      min: 10,
+                      message:
+                        "Tin nhắn phải có ít nhất 10 ký tự.",
+                    },
+                    {
+                      max: maxLength,
+                      message: `Thông báo phải ngắn hơn ${maxLength} kí tự`,
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    placeholder="Your message"
+                    rows={5}
+                    maxLength={maxLength}
+                    disabled={isSubmitting}
+                    className={`${rawInputCls} !resize-y`}
+                  />
+                </Form.Item>
+
+                <span className="block text-right text-xs text-gray-400 pt-1 pb-2 pr-1 select-none">
+                  {messageValue.length}/{maxLength}
+                </span>
+              </>
+            </UnderlineField>
+
+            <div className="mt-8">
+              <button
+                type="submit"
+                disabled={isSubmitting || isSuccess}
+                className="inline-flex items-center gap-2 bg-[#b91c3b] hover:bg-[#9a1530] active:bg-[#7f1129] disabled:opacity-60 disabled:cursor-not-allowed text-white px-8 py-3 rounded transition-colors duration-300 uppercase tracking-widest text-sm"
+              >
+                {isSubmitting ? (
+                  <SyncOutlined spin />
+                ) : isSuccess ? (
+                  <CheckCircleFilled />
+                ) : (
+                  <SendOutlined />
+                )}
+                {isSubmitting
+                  ? "Sending..."
+                  : isSuccess
+                    ? "Sent!"
+                    : "Send Now"}
+              </button>
+            </div>
+          </Form>
         </div>
 
-        {/* Image Section */}
-        <div className="relative h-[400px] lg:h-auto">
+        <div className="hidden lg:block relative w-[380px] xl:w-[420px] shrink-0 overflow-hidden">
           <img
             src={imageUrl}
             alt={imageAlt}
-            className="w-full h-full object-cover"
             loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 group-hover:rotate-1"
           />
-          {/* Subtle gradient overlay on mobile for better readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent lg:hidden" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1f3351]/20 via-transparent to-[#b91c3b]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
         </div>
       </div>
     </div>
