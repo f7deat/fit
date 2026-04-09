@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Form, Input, notification, message } from "antd";
+import { Button, Form, Input, notification,  message,} from "antd";
 import {
   CheckCircleFilled,
   SyncOutlined,
@@ -157,8 +157,7 @@ export default function ContactFormSection({
                   },
                   {
                     min: 2,
-                    message:
-                      "Trường tên phải có trên 2 kí tự",
+                    message: "Trường tên phải có trên 2 kí tự",
                   },
                   {
                     whitespace: true,
@@ -261,24 +260,26 @@ export default function ContactFormSection({
             </UnderlineField>
 
             <div className="mt-8">
-              <button
-                type="submit"
+              <Button
+                htmlType="submit"
                 disabled={isSubmitting || isSuccess}
-                className="inline-flex items-center gap-2 bg-[#b91c3b] hover:bg-[#9a1530] active:bg-[#7f1129] disabled:opacity-60 disabled:cursor-not-allowed text-white px-8 py-3 rounded transition-colors duration-300 uppercase tracking-widest text-sm"
+                icon={
+                  isSubmitting ? (
+                    <SyncOutlined spin />
+                  ) : isSuccess ? (
+                    <CheckCircleFilled />
+                  ) : (
+                    <SendOutlined />
+                  )
+                }
+                className="!inline-flex !items-center !gap-2 !bg-[#b91c3b] hover:!bg-[#9a1530] active:!bg-[#7f1129] disabled:!opacity-60 disabled:!cursor-not-allowed !text-white !px-8 !py-3 !h-auto !rounded !border-0 !shadow-none transition-colors duration-300 !uppercase tracking-widest !text-sm"
               >
-                {isSubmitting ? (
-                  <SyncOutlined spin />
-                ) : isSuccess ? (
-                  <CheckCircleFilled />
-                ) : (
-                  <SendOutlined />
-                )}
                 {isSubmitting
                   ? "Sending..."
                   : isSuccess
                     ? "Sent!"
                     : "Send Now"}
-              </button>
+              </Button>
             </div>
           </Form>
         </div>
