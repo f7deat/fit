@@ -37,8 +37,8 @@ const contactCards: ContactCard[] = [
     title: "Email",
     content: [
       {
-        label: "kcntt@dhhp.edu.vn",
-        href: "mailto:kcntt@dhhp.edu.vn",
+        label: "khoacntt@dhhp.edu.vn",
+        href: "mailto:khoacntt@dhhp.edu.vn",
       },
     ],
     variant: "navy",
