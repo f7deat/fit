@@ -1,16 +1,12 @@
-"use client";
-
-import { useState } from "react";
 import {
   HiOutlineLocationMarker,
   HiOutlinePhone,
   HiOutlineMail,
 } from "react-icons/hi";
 
-
 type ContactInfoLine = {
   label: string;
-  href?: string; // có thì sẽ thành link
+  href?: string;
 };
 
 type ContactInfoCardProps = {
@@ -28,14 +24,13 @@ export default function ContactInfoCard({
   variant,
   backgroundImage,
 }: ContactInfoCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
   const bgColor =
     variant === "red"
-      ? "bg-gradient-to-br from-[#b91c3b] to-[#9a1530]"
-      : "bg-[#1f3351]";
+      ? "bg-gradient-to-br from-[#c22542] to-[#031428]"
+      : "bg-[#1c2e46]";
 
-  const overlayOpacity = variant === "red" ? "bg-black/20" : "bg-black/40";
+  const overlayOpacity =
+    variant === "red" ? "bg-black/10" : "bg-black/40";
 
   const Icon =
     icon === "location"
@@ -46,51 +41,55 @@ export default function ContactInfoCard({
 
   return (
     <div
-      className={`
-        relative rounded-2xl p-10 text-center text-white overflow-hidden 
-        shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-300 ease-in-out hover:shadow-[0_15px_50px_rgba(0,0,0,0.18)]
-        transform hover:scale-[1.02] cursor-default
-      `}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="
+        group relative rounded-2xl p-10 text-center text-white overflow-hidden
+        shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-300 ease-in-out
+        hover:shadow-[0_15px_50px_rgba(0,0,0,0.18)] hover:scale-[1.02] cursor-default
+      "
     >
       {backgroundImage && (
         <>
-          <div
-            className={`absolute inset-0 bg-cover bg-center transition-all duration-300 ease-in-out ${
-              isHovered ? "scale-110" : "scale-100"
-            }`}
-            style={{ backgroundImage: `url(${backgroundImage})` }}
+          <img
+            src={backgroundImage}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
           />
-          <div className={`absolute inset-0 ${overlayOpacity}`} />
+          <div
+            className={`absolute inset-0 ${overlayOpacity}`}
+          />
         </>
       )}
 
       <div
         className={`absolute inset-0 ${bgColor} ${
-          backgroundImage ? "opacity-90" : "opacity-100"
+          backgroundImage ? "opacity-70" : "opacity-100"
         }`}
       />
 
       <div className="relative z-10">
         <div className="flex justify-center mb-5">
           <div
-            className={`
+            className="
               bg-white/20 backdrop-blur-sm rounded-full p-3.5 border border-white/30
-             transition-all duration-300 ease-in-out ${
-                isHovered ? "scale-110 rotate-6" : "scale-100 rotate-0"
-              }
-            `}
+              transition-all duration-300 ease-in-out
+              group-hover:scale-110 group-hover:rotate-6
+            "
           >
             <Icon className="w-8 h-8" />
           </div>
         </div>
 
-        <h3 className="text-lg font-semibold mb-4 tracking-wide">{title}</h3>
+        <h3 className="text-lg font-semibold mb-4 tracking-wide">
+          {title}
+        </h3>
 
         <div className="space-y-1">
           {content.map((line, index) => (
-            <p key={index} className="text-sm leading-relaxed opacity-95">
+            <p
+              key={index}
+              className="text-sm leading-relaxed opacity-95"
+            >
               {line.href ? (
                 <a
                   href={line.href}
@@ -106,12 +105,7 @@ export default function ContactInfoCard({
         </div>
       </div>
 
-      {isHovered && (
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shine pointer-events-none"
-          style={{ animation: "shine 1.5s ease-in-out" }}
-        />
-      )}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
     </div>
   );
 }
