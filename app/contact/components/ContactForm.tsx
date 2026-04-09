@@ -40,7 +40,6 @@ export default function ContactFormSection({
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Form submitted:", values);
 
       setIsSuccess(true);
 
