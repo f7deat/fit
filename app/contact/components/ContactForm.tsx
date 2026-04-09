@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Form, Input, notification,  message,} from "antd";
+import { Button, Form, Input, message, notification } from "antd";
 import {
   CheckCircleFilled,
-  SyncOutlined,
   SendOutlined,
+  SyncOutlined,
 } from "@ant-design/icons";
 
 interface FormValues {
@@ -20,58 +20,6 @@ interface ContactFormSectionProps {
   imageAlt?: string;
 }
 
-interface UnderlineFieldProps {
-  fieldName: keyof FormValues;
-  children: React.ReactElement;
-}
-
-function UnderlineField({
-  fieldName,
-  children,
-}: UnderlineFieldProps) {
-  return (
-    <Form.Item noStyle shouldUpdate>
-      {({ getFieldError, isFieldTouched }) => {
-        const errors = isFieldTouched(fieldName)
-          ? getFieldError(fieldName)
-          : [];
-        const hasError = errors.length > 0;
-
-        return (
-          <div className="mb-5">
-            <div
-              className={[
-                "border-b transition-all duration-300 ease-in-out",
-                hasError ? "border-red-500" : "border-gray-300",
-              ].join(" ")}
-            >
-              {children}
-            </div>
-
-            <div
-              className={[
-                "grid transition-all duration-300 ease-in-out",
-                hasError
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0",
-              ].join(" ")}
-            >
-              <div className="overflow-hidden">
-                <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5">
-                  <span className="inline-block w-1 h-1 rounded-full bg-red-500 shrink-0" />
-                  {errors[0] || "\u00A0"}
-                </p>
-              </div>
-            </div>
-          </div>
-        );
-      }}
-    </Form.Item>
-  );
-}
-
-const rawInputCls =
-  "w-full !bg-transparent !border-0 !shadow-none !outline-none !text-gray-800 !text-sm !px-0 !py-3 placeholder-gray-400";
 
 export default function ContactFormSection({
   imageUrl,
@@ -80,7 +28,10 @@ export default function ContactFormSection({
   const [form] = Form.useForm<FormValues>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+    
   const maxLength = 500;
+  const inputCls =
+  "!bg-transparent !border-0 !border-b !border-gray-300 hover:!border-[#b91c3b] focus-within:!border-[#b91c3b] !rounded-none !shadow-none !px-0 !py-3 !text-sm !text-gray-800 placeholder-gray-400";
 
   const messageValue = Form.useWatch("message", form) ?? "";
 
@@ -97,9 +48,7 @@ export default function ContactFormSection({
         title: "Thông báo đã được gửi thành công",
         description:
           "Cảm ơn bạn đã liên hệ với chúng tôi. Chúng tôi sẽ liên lạc lại với bạn trong thời gian sớm nhất.",
-        icon: (
-          <CheckCircleFilled style={{ color: "#52c41a" }} />
-        ),
+        icon: <CheckCircleFilled style={{ color: "#52c41a" }} />,
         placement: "topRight",
         duration: 4,
       });
@@ -134,130 +83,104 @@ export default function ContactFormSection({
         <div className="flex-1 px-10 py-12 lg:px-14">
           <Form
             form={form}
-            initialValues={{
-              name: "",
-              email: "",
-              phone: "",
-              message: "",
-            }}
             onFinish={handleFinish}
-            onFinishFailed={handleFinishFailed}
             requiredMark={false}
-            validateTrigger="onBlur"
           >
-            <></>
-            <UnderlineField fieldName="name">
-              <Form.Item
-                name="name"
-                noStyle
-                rules={[
-                  {
-                    required: true,
-                    message: "Trường name là bắt buộc",
-                  },
-                  {
-                    min: 2,
-                    message: "Trường tên phải có trên 2 kí tự",
-                  },
-                  {
-                    whitespace: true,
-                    message: "Tên không được để trống.",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="Name"
-                  disabled={isSubmitting}
-                  className={rawInputCls}
-                />
-              </Form.Item>
-            </UnderlineField>
+            <Form.Item
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường name là bắt buộc",
+                },
+                {
+                  min: 2,
+                  message: "Trường tên phải có trên 2 kí tự",
+                },
+                {
+                  whitespace: true,
+                  message: "Tên không được để trống.",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Name"
+                disabled={isSubmitting}
+                className={inputCls}
+              />
+            </Form.Item>
 
-            <UnderlineField fieldName="email">
-              <Form.Item
-                name="email"
-                noStyle
-                rules={[
-                  {
-                    required: true,
-                    message: "Trường Email là bắt buộc",
-                  },
-                  {
-                    type: "email",
-                    message:
-                      "Vui lòng nhập địa chỉ email hợp lệ.",
-                  },
-                ]}
-              >
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  disabled={isSubmitting}
-                  className={rawInputCls}
-                />
-              </Form.Item>
-            </UnderlineField>
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường Email là bắt buộc",
+                },
+                {
+                  type: "email",
+                  message: "Vui lòng nhập địa chỉ email hợp lệ.",
+                },
+              ]}
+            >
+              <Input
+                type="email"
+                placeholder="Email"
+                disabled={isSubmitting}
+                className={inputCls}
+              />
+            </Form.Item>
 
-            <UnderlineField fieldName="phone">
-              <Form.Item
-                name="phone"
-                noStyle
-                rules={[
-                  {
-                    required: true,
-                    message: "Trường Số điện thoại là bắt buộc",
-                  },
-                  {
-                    pattern: /^[\d\s\-\+\(\)]+$/,
-                    message:
-                      "Vui lòng nhập số điện thoại hợp lệ.",
-                  },
-                ]}
-              >
-                <Input
-                  type="tel"
-                  placeholder="Phone"
-                  disabled={isSubmitting}
-                  className={rawInputCls}
-                />
-              </Form.Item>
-            </UnderlineField>
+            <Form.Item
+              name="phone"
+              rules={[
+                {
+                  required: true,
+                  message: "Trường Số điện thoại là bắt buộc",
+                },
+                {
+                  pattern: /^[\d\s\-\+\(\)]+$/,
+                  message: "Vui lòng nhập số điện thoại hợp lệ.",
+                },
+              ]}
+            >
+              <Input
+                type="tel"
+                placeholder="Phone"
+                disabled={isSubmitting}
+                className={inputCls}
+              />
+            </Form.Item>
 
-            <UnderlineField fieldName="message">
-              <>
-                <Form.Item
-                  name="message"
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: "Thông báo là bắt buộc",
-                    },
-                    {
-                      min: 10,
-                      message:
-                        "Tin nhắn phải có ít nhất 10 ký tự.",
-                    },
-                    {
-                      max: maxLength,
-                      message: `Thông báo phải ngắn hơn ${maxLength} kí tự`,
-                    },
-                  ]}
-                >
-                  <Input.TextArea
-                    placeholder="Your message"
-                    rows={5}
-                    maxLength={maxLength}
-                    disabled={isSubmitting}
-                    className={`${rawInputCls} !resize-y`}
-                  />
-                </Form.Item>
+            <Form.Item
+              name="message"
+              rules={[
+                {
+                  required: true,
+                  message: "Thông báo là bắt buộc",
+                },
+                {
+                  min: 10,
+                  message: "Tin nhắn phải có ít nhất 10 ký tự.",
+                },
+                {
+                  max: maxLength,
+                  message: `Thông báo phải ngắn hơn ${maxLength} kí tự`,
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Your message"
+                rows={5}
+                maxLength={maxLength}
+                disabled={isSubmitting}
+                className={`${inputCls} !resize-y`}
+              />
+            </Form.Item>
 
-                <span className="block text-right text-xs text-gray-400 pt-1 pb-2 pr-1 select-none">
-                  {messageValue.length}/{maxLength}
-                </span>
-              </>
-            </UnderlineField>
+            <div className="-mt-3 mb-6 text-right text-xs text-gray-400">
+              {messageValue.length}/{maxLength}
+            </div>
 
             <div className="mt-8">
               <Button
