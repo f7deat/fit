@@ -70,13 +70,6 @@ export default function ContactFormSection({
     }
   };
 
-  const handleFinishFailed = () => {
-    message.error({
-      content: "Vui lòng sửa lỗi trước khi gửi",
-      duration: 3,
-    });
-  };
-
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.12)] transition-shadow duration-300 group">
       <div className="flex flex-col lg:flex-row items-stretch">
