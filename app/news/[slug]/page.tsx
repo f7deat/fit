@@ -76,12 +76,11 @@ const Page = async ({ params }: Props) => {
               </h1>
             </div>
             <div className="relative w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[400px] mb-6 rounded-lg overflow-hidden">
-              <Image
+              <img
                 src={safeImg(article.thumbnail)}
                 alt={article.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px"
-                className="object-cover"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover"
               />
             </div>
             <div
