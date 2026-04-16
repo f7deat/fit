@@ -60,9 +60,9 @@ export default function Header() {
             <a href="https://www.linkedin.com/company/hai-phong-university/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
               <FaLinkedinIn size={16} />
             </a>
-            <a href="#" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
+            <Link href="/news" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">
               <FaSearch size={16} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

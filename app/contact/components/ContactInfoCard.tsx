@@ -45,6 +45,7 @@ export default function ContactInfoCard({
         group relative rounded-2xl p-10 text-center text-white overflow-hidden
         shadow-[0_10px_40px_rgba(0,0,0,0.12)] transition-all duration-300 ease-in-out
         hover:shadow-[0_15px_50px_rgba(0,0,0,0.18)] hover:scale-[1.02] cursor-default
+        bg-white
       "
     >
       {backgroundImage && (
