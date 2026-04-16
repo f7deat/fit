@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import Breadcrumb from "@/components/common/breadcrumb";
 import { apiPhotos } from "@/services/gallery";
-
+import Link from "next/link";
+import GalleryModal  from "./components/GalleryModal";
 type Params = Promise<{ slug: number }>;
 
 const Page: React.FC<{ params: Params }> = async ({ params }) => {
+    const { slug } = await params;
     const response = await apiPhotos({ current: 1, postId: (await params).slug });
     const { data } = response.data;
 
@@ -26,9 +28,11 @@ const Page: React.FC<{ params: Params }> = async ({ params }) => {
             <div className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" style={{ gridAutoRows: "400px" }}>
                     {data.map((item: { id: number; url: string; title: string }, index: number) => (
-                        <div
+                        <Link
                             key={index}
-                            className="relative overflow-hidden rounded-lg shadow-md group"
+                            href={`/gallery/${slug}?photo=${index}`}
+                            scroll={false}
+                            className="relative overflow-hidden rounded-lg shadow-md group cursor-pointer"
                         >
                             <img
                                 src={item.url}
@@ -38,9 +42,10 @@ const Page: React.FC<{ params: Params }> = async ({ params }) => {
                             <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-25 transition-opacity duration-300 flex items-center justify-center">
                                 <span className="text-white font-bold text-lg">{item.title}</span>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
+                <GalleryModal images={data} />
             </div>
         </main>
     );
