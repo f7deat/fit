@@ -3,6 +3,7 @@ import NewsCard from "./NewsCard";
 import NewsPagination from "./NewsPagination";
 import { NewsEmptyState } from "./NewsStates";
 import { NewsItem } from "@/types/news";
+import { NewsListResponse } from "@/types/api/news";
 
 const PAGE_SIZE = 4;
 const CATEGORY_ID = 575;
@@ -18,7 +19,7 @@ const NewsList: React.FC<Props> = async ({ currentPage, query }) => {
   let errorMessage: string | null = null;
 
   try {
-    const response = await apiGetNewsList({
+    const response = await apiGetNewsList<NewsListResponse>({
       current: currentPage,
       pageSize: PAGE_SIZE,
       categoryId: CATEGORY_ID,

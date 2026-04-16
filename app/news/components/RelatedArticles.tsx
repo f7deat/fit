@@ -5,6 +5,7 @@ import { BsEye } from "react-icons/bs";
 import { BiCalendar } from "react-icons/bi";
 import { apiGetNewsList } from "@/services/news";
 import { type NewsItem } from "@/types/news"
+import { NewsListResponse } from "@/types/api/news";
 const safeImg = (raw: string): string => {
   try {
     const index = raw.lastIndexOf("/");
@@ -19,7 +20,7 @@ type Props = {
 };
 
 const RelatedArticles: React.FC<Props> = async ({ currentSlug }) => {
-  const response = await apiGetNewsList({
+  const response = await apiGetNewsList<NewsListResponse>({
     current: 1,
     pageSize: 8,
     categoryId: 575,

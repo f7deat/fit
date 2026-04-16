@@ -12,3 +12,8 @@ export type NewsListResponse = {
   data: NewsItem[];
   total: number;
 };
+
+export type MetaArticleResponse = {
+  title: string;
+  description: string;
+};
