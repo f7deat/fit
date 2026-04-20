@@ -20,8 +20,3 @@ export type ArticleDetail = {
   url: string;
   modifiedDate: string;
 };
-
-export type MetaArticleResponse = {
-  title: string;
-  description: string;
-};
