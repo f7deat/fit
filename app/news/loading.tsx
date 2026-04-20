@@ -3,7 +3,7 @@ import {
   NewsSidebarSkeleton,
 } from "./components/NewsSkeletons";
 
-const Loading: React.FC = () => {
+export default function Loading() {
   return (
     <section className="container mx-auto px-4 py-12">
       <div className="flex flex-col lg:flex-row lg:items-start gap-8">
@@ -14,6 +14,4 @@ const Loading: React.FC = () => {
       </div>
     </section>
   );
-};
-
-export default Loading;
+}

@@ -1,156 +1,89 @@
 import Breadcrumb from "@/components/common/breadcrumb";
-import RelatedArticles from "../components/RelatedArticles";
-import ArticleShareActions from "./article-share-actions";
-import { apiGetArticleByUrl, apiGetMetaArticle } from "@/services/article";
-import dayjs from "dayjs";
+import { apiGetNewsByUrl, apiGetMetaNews } from "@/services/news";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { cache } from "react";
-import { Inter, Quicksand } from "next/font/google";
+import { Suspense } from "react";
+import RelatedArticles from "../components/RelatedArticles";
+import { RelatedArticlesSkeleton } from "../components/NewsSkeletons";
+import dayjs from "dayjs";
 import { BiCalendar } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
-
-const inter = Inter({ subsets: ["latin-ext"] });
-const quicksand = Quicksand({ subsets: ["latin-ext"] });
+import { ArticleDetail, } from "@/types/news";
+import { MetaArticleResponse } from "@/types/api/news";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-type ArticleDetail = {
-  id: number;
-  title: string;
-  description: string;
-  content: string;
-  thumbnail: string;
-  createdDate: string;
-  view: number;
-  url: string;
-  modifiedDate: string;
+const safeImg = (raw: string): string => {
+  try {
+    const index = raw.lastIndexOf("/");
+    return raw.slice(0, index + 1) + encodeURIComponent(raw.slice(index + 1));
+  } catch {
+    return raw;
+  }
 };
-
-const getArticle = cache(async (slug: string): Promise<ArticleDetail | null> => {
-  try {
-    const response = await apiGetArticleByUrl(slug);
-    return response.data as ArticleDetail;
-  } catch {
-    return null;
-  }
-});
-
-const getArticleMeta = cache(async (slug: string) => {
-  try {
-    const response = await apiGetMetaArticle(slug);
-    return response.data;
-  } catch {
-    return null;
-  }
-});
-
-function toAbsoluteUrl(path?: string | null) {
-  if (!path) return null;
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  return `https://fit.dhhp.edu.vn${path}`;
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
-  const [article, meta] = await Promise.all([
-    getArticle(slug),
-    getArticleMeta(slug),
-  ]);
-
-  if (!article) {
+  try {
+    const meta = await apiGetMetaNews<MetaArticleResponse>(slug);
     return {
-      title: "Bài viết không tồn tại",
-      description: "Không tìm thấy nội dung bài viết.",
+      title: meta?.title ?? "Tin tức",
+      description: meta?.description ?? "Chi tiết bài viết",
+    };
+  } catch {
+    return {
+      title: "Tin tức",
+      description: "Chi tiết bài viết",
     };
   }
-
-  const publicUrl = `https://fit.dhhp.edu.vn/article/${article.url}`;
-  const imageUrl = toAbsoluteUrl(article.thumbnail);
-
-  return {
-    title: meta?.title ?? article.title,
-    description: meta?.description ?? article.description,
-    alternates: {
-      canonical: publicUrl,
-    },
-    openGraph: {
-      title: meta?.title ?? article.title,
-      description: meta?.description ?? article.description,
-      url: publicUrl,
-      type: "article",
-      images: imageUrl
-        ? [
-          {
-            url: imageUrl,
-            alt: article.title,
-            width: 1200,
-            height: 630,
-          },
-        ]
-        : [],
-    },
-    twitter: {
-      card: imageUrl ? "summary_large_image" : "summary",
-      title: meta?.title ?? article.title,
-      description: meta?.description ?? article.description,
-      images: imageUrl ? [imageUrl] : [],
-    },
-  };
 }
 
-const Page: React.FC<Props> = async ({ params }: Props) => {
+const Page = async ({ params }: Props) => {
   const { slug } = await params;
-  const article = await getArticle(slug);
+  try {
+    const article = await apiGetNewsByUrl<ArticleDetail>(slug);
 
-  if (!article) {
-    notFound();
-  }
+    if (!article) {
+      notFound();
+    }
 
-  const publicUrl = `https://fit.dhhp.edu.vn/article/${article.url}`;
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Breadcrumb
-        items={[
-          { label: "Trang chủ", href: "/" },
-          { label: "Tin tức", href: "/news" },
-        ]}
-        title={article.title}
-      />
-
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-col lg:grid lg:grid-cols-[44px_minmax(0,1fr)_300px] gap-6 items-start">
-          <ArticleShareActions
-            title={article.title}
-            content={article.content}
-            publicUrl={publicUrl}
-          />
-
-          <main className="min-w-0 w-full" style={inter.style}>
-            <article className="bg-white rounded-lg shadow-sm p-4 md:p-6 lg:p-8">
+    return (
+      <>
+        <Breadcrumb
+          items={[
+            { label: "Trang chủ", href: "/" },
+            { label: "Tin tức", href: "/news" },
+          ]}
+          title={article.title}
+        />
+        <main className="container mx-auto px-4 pt-24 md:pt-28 lg:pt-32 pb-8 md:pb-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8">
+            <div className="md:col-span-2 lg:col-span-8 min-w-0">
               <div className="mb-4">
-                <span className="text-sm text-gray-500">
-                  {dayjs(article.modifiedDate).format("DD/MM/YYYY HH:mm")}
-                </span>
-              </div>
-
-              <div className="mb-4">
-                <div className="text-red-700 font-bold text-xs">TIN TUC</div>
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mt-2 leading-tight">
+                <div className="text-red-700 font-bold text-xs uppercase">
+                  Tin tức
+                </div>
+                <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
                   {article.title}
                 </h1>
               </div>
-
+              <div className="relative w-full h-[220px] sm:h-[280px] md:h-[320px] lg:h-[400px] mb-6 rounded-lg overflow-hidden">
+                <img
+                  src={safeImg(article.thumbnail)}
+                  alt={article.title}
+                  loading="lazy"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
               <div
-                className="prose prose-base md:prose-lg max-w-none mb-6 break-words"
                 dangerouslySetInnerHTML={{ __html: article.content }}
+                className="prose prose-sm md:prose-base lg:prose-lg max-w-none mb-6"
               />
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 text-gray-500 border-t border-dashed border-gray-300 pt-3 text-sm">
 
-              <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center text-gray-500 border-t border-dashed border-gray-300 pt-3">
                 <span className="flex gap-1 items-center">
                   <BiCalendar />
                   {dayjs(article.modifiedDate).format("DD/MM/YYYY HH:mm")}
@@ -158,28 +91,38 @@ const Page: React.FC<Props> = async ({ params }: Props) => {
 
                 <span className="flex gap-1 items-center">
                   <BsEye />
-                  <span>{article.view}</span>
-                  <span>Lượt xem</span>
+                  {article.view} lượt xem
                 </span>
               </div>
-            </article>
-          </main>
+            </div>
 
-          <aside className="min-w-0 w-full">
-            <div className="bg-white rounded-lg shadow-sm p-4">
-              <div className="mb-4">
-                <div className="text-red-700 font-bold text-xs">TIN TUC</div>
-                <h2 className="text-xl font-bold mt-2" style={quicksand.style}>
+            {/* SIDEBAR */}
+            <aside className="md:col-span-2 lg:col-span-4 w-full lg:sticky lg:top-32 space-y-6">
+
+              <div>
+                <div className="text-red-700 font-bold text-xs uppercase">
+                  Tin tức
+                </div>
+                <h2 className="text-lg md:text-xl font-bold mb-3">
                   Bài viết mới
                 </h2>
               </div>
-              <RelatedArticles />
-            </div>
-          </aside>
-        </div>
-      </div>
-    </div>
-  );
+
+              <Suspense fallback={<RelatedArticlesSkeleton />}>
+                <RelatedArticles currentSlug={slug} />
+              </Suspense>
+            </aside>
+
+          </div>
+        </main>
+      </>
+    );
+  } catch (error: any) {
+    if (error.status === 404) {
+      notFound();
+    }
+    throw error;
+  }
 };
 
 export default Page;
