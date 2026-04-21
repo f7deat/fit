@@ -7,9 +7,10 @@ import { RelatedArticlesSkeleton } from "../components/NewsSkeletons";
 import dayjs from "dayjs";
 import { BiCalendar } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
-import { ArticleDetail, } from "@/types/news";
+import { ArticleDetail } from "@/types/news";
 import { MetaArticleResponse } from "@/types/api/news";
 import { notFound } from "next/navigation";
+import ArticleShareActions from "./article-share-actions";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const Page : React.FC<Props> = async ({ params }: Props) => {
+const Page: React.FC<Props> = async ({ params }: Props) => {
   const { slug } = await params;
   try {
     const article = await apiGetNewsByUrl<ArticleDetail>(slug);
@@ -49,6 +50,8 @@ const Page : React.FC<Props> = async ({ params }: Props) => {
     if (!article) {
       notFound();
     }
+
+    const publicUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://fitgroup.vn"}/news/${slug}`;
 
     return (
       <>
@@ -62,8 +65,17 @@ const Page : React.FC<Props> = async ({ params }: Props) => {
         <main className="bg-[#f8f9fa] min-h-screen">
           <div className="container mx-auto px-4 py-10 md:py-12">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Share Actions - Desktop (bên trái) */}
+              <div className="hidden lg:flex lg:col-span-1 justify-end">
+                <ArticleShareActions
+                  title={article.title}
+                  content={article.content}
+                  publicUrl={publicUrl}
+                />
+              </div>
+
               {/* Main Content */}
-              <article className="lg:col-span-8">
+              <article className="lg:col-span-7">
                 <div className="bg-white rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] overflow-hidden">
                   {/* Featured Image */}
                   <div className="relative w-full h-[240px] sm:h-[320px] md:h-[380px] lg:h-[420px] overflow-hidden">
@@ -87,15 +99,25 @@ const Page : React.FC<Props> = async ({ params }: Props) => {
                       </h1>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-8 pb-6 border-b border-gray-100">
-                      <span className="flex items-center gap-2">
-                        <BiCalendar className="text-[#b71c4c]" />
-                        {dayjs(article.modifiedDate).format("DD/MM/YYYY HH:mm")}
-                      </span>
-                      <span className="flex items-center gap-2">
-                        <BsEye className="text-[#b71c4c]" />
-                        {article.view.toLocaleString("vi-VN")} lượt xem
-                      </span>
+                    <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-500 mb-8 pb-6 border-b border-gray-100">
+                      <div className="flex flex-wrap items-center gap-4">
+                        <span className="flex items-center gap-2">
+                          <BiCalendar className="text-[#b71c4c]" />
+                          {dayjs(article.modifiedDate).format("DD/MM/YYYY HH:mm")}
+                        </span>
+                        <span className="flex items-center gap-2">
+                          <BsEye className="text-[#b71c4c]" />
+                          {article.view.toLocaleString("vi-VN")} lượt xem
+                        </span>
+                      </div>
+                      {/* Share Actions - Mobile */}
+                      <div className="lg:hidden flex items-center gap-2">
+                        <ArticleShareActions
+                          title={article.title}
+                          content={article.content}
+                          publicUrl={publicUrl}
+                        />
+                      </div>
                     </div>
 
                     <div
