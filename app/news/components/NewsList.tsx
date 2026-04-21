@@ -5,7 +5,7 @@ import { NewsEmptyState } from "./NewsStates";
 import { NewsItem } from "@/types/news";
 import { NewsListResponse } from "@/types/api/news";
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 6;
 const CATEGORY_ID = 575;
 
 type Props = {
@@ -56,7 +56,7 @@ const NewsList: React.FC<Props> = async ({ currentPage, query }) => {
       {!errorMessage && total === 0 && <NewsEmptyState />}
 
       {!errorMessage && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item) => (
             <NewsCard key={item.id} item={item} />
           ))}
