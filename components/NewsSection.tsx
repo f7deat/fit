@@ -98,7 +98,7 @@ export default function NewsSection() {
                       <FaCalendar /> {dayjs(article.createdDate).format("DD/MM/YYYY")}
                     </span>
                     <span className="flex gap-1 items-center">
-                      {article.view}
+                      {article.view.toLocaleString()}
                       <FaEye />
                     </span>
                   </div>
@@ -116,7 +116,7 @@ export default function NewsSection() {
               >
                 <div className="flex-1">
                   <Link href={`/article/${article.url}`}>
-                    <h3 className="text-lg font-bold line-clamp-2" style={quicksand.style}>
+                    <h3 className="text-lg font-bold line-clamp-2 hover:text-red-500" style={quicksand.style}>
                       {article.title}
                     </h3>
                   </Link>
@@ -125,7 +125,7 @@ export default function NewsSection() {
                       <FaCalendar /> {dayjs(article.createdDate).format("DD/MM/YYYY")}
                     </span>
                     <span className="flex gap-1 items-center">
-                      {article.view}
+                      {article.view.toLocaleString()}
                       <FaEye />
                     </span>
                   </div>

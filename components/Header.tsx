@@ -45,7 +45,7 @@ export default function Header() {
       <div className="border-b border-gray-600">
         <div className="container mx-auto flex justify-between items-center">
           <div className="hidden md:block">
-            <HiOutlineLocationMarker className="mr-1 inline" />C3, 171 Phan Đăng Lưu, Kiến An, Hải Phòng
+            <HiOutlineLocationMarker className="mr-1 inline" />C3, 171 Phan Đăng Lưu, Phường Phù Liễn, TP. Hải Phòng
           </div>
           <div className="flex justify-end">
             <a href="https://www.facebook.com/fithpu" target="_blank" rel="noopener noreferrer" className="hover:text-blue-300 px-4 py-3 border-l border-gray-600">

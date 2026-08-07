@@ -92,7 +92,7 @@ const Page: React.FC = () => {
                                         <FaCalendar /> {dayjs(article.createdDate).format("DD/MM/YYYY")}
                                     </span>
                                     <span className="flex gap-1 items-center">
-                                        {article.view}
+                                        {article.view.toLocaleString()}
                                         <FaEye />
                                     </span>
                                 </div>

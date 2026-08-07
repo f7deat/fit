@@ -33,7 +33,7 @@ export default function Footer() {
               <HiOutlinePhone className="mr-1 inline" /> Điện thoại: (02253) 549.277
             </p>
             <div className="mb-2">
-              <HiOutlineLocationMarker className="mr-1 inline" /> Địa chỉ: Tòa C3, 171 Phan Đăng Lưu, Kiến An, Hải Phòng
+              <HiOutlineLocationMarker className="mr-1 inline" /> Địa chỉ: Tòa C3, 171 Phan Đăng Lưu, Phường Phù Liễn, TP. Hải Phòng
             </div>
           </div>
 
