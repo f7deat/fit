@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { Button, Form, Input, message, notification } from "antd";
 import {
-  CheckCircleFilled,
-  SendOutlined,
-  SyncOutlined,
+  CheckCircleFilled
 } from "@ant-design/icons";
 
 interface FormValues {
