@@ -1,82 +1,169 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/autoplay";
-import { Autoplay } from "swiper/modules";
-import { Quicksand } from "next/font/google";
+interface Partner {
+  name: string;
+  renderLogo: () => React.ReactNode;
+}
 
-const quicksand = Quicksand({ subsets: ["latin-ext"] });
+const partners: Partner[] = [
+  // Hàng 1
+  {
+    name: "NVIDIA",
+    renderLogo: () => (
+      <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 group-hover:text-[#76B900] transition-colors">
+        NVIDIA
+      </span>
+    ),
+  },
+  {
+    name: "intel.",
+    renderLogo: () => (
+      <span className="font-bold text-xl md:text-2xl tracking-tighter text-[#0071C5] font-sans">
+        intel<span className="text-[#0071C5]">.</span>
+      </span>
+    ),
+  },
+  {
+    name: "DELL",
+    renderLogo: () => (
+      <span className="font-black text-lg md:text-xl tracking-widest text-[#0076CE]">
+        DELL
+      </span>
+    ),
+  },
+  {
+    name: "SONY",
+    renderLogo: () => (
+      <span className="font-black text-lg md:text-xl tracking-[0.25em] text-slate-900 font-serif">
+        SONY
+      </span>
+    ),
+  },
+  {
+    name: "LG",
+    renderLogo: () => (
+      <div className="flex items-center gap-1.5 text-[#A50034]">
+        <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+          <path d="M10 8v8h5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="8" cy="11" r="1.2" fill="currentColor" />
+        </svg>
+        <span className="font-extrabold text-xl tracking-wider">LG</span>
+      </div>
+    ),
+  },
+  {
+    name: "HUAWEI",
+    renderLogo: () => (
+      <div className="flex items-center gap-1.5 text-slate-900 group-hover:text-[#ED1C24] transition-colors">
+        <svg className="w-4 h-4 fill-[#ED1C24]" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z" />
+        </svg>
+        <span className="font-extrabold text-sm md:text-base tracking-widest">HUAWEI</span>
+      </div>
+    ),
+  },
+  // Hàng 2
+  {
+    name: "Google",
+    renderLogo: () => (
+      <div className="font-medium text-lg md:text-xl font-sans tracking-tight">
+        <span className="text-[#4285F4]">G</span>
+        <span className="text-[#EA4335]">o</span>
+        <span className="text-[#FBBC05]">o</span>
+        <span className="text-[#4285F4]">g</span>
+        <span className="text-[#34A853]">l</span>
+        <span className="text-[#EA4335]">e</span>
+      </div>
+    ),
+  },
+  {
+    name: "Microsoft",
+    renderLogo: () => (
+      <div className="flex items-center gap-2">
+        <div className="grid grid-cols-2 gap-0.5 w-4 h-4 shrink-0">
+          <div className="bg-[#F25022]"></div>
+          <div className="bg-[#7FBA00]"></div>
+          <div className="bg-[#00A4EF]"></div>
+          <div className="bg-[#FFB900]"></div>
+        </div>
+        <span className="font-semibold text-base md:text-lg text-slate-700">Microsoft</span>
+      </div>
+    ),
+  },
+  {
+    name: "amazon",
+    renderLogo: () => (
+      <div className="relative font-bold text-lg md:text-xl text-slate-900 tracking-tight">
+        amazon
+        <span className="absolute -bottom-1 left-0 right-0 h-1 bg-[#FF9900] rounded-full transform scale-x-75"></span>
+      </div>
+    ),
+  },
+  {
+    name: "SAMSUNG",
+    renderLogo: () => (
+      <span className="font-black text-base md:text-lg tracking-widest text-[#1428A0]">
+        SAMSUNG
+      </span>
+    ),
+  },
+  {
+    name: "CISCO",
+    renderLogo: () => (
+      <div className="flex flex-col items-center">
+        <div className="flex items-end gap-0.5 h-2.5 mb-0.5 text-[#049FD9]">
+          <span className="w-0.5 h-1.5 bg-current rounded-full"></span>
+          <span className="w-0.5 h-2.5 bg-current rounded-full"></span>
+          <span className="w-0.5 h-1.5 bg-current rounded-full"></span>
+        </div>
+        <span className="font-bold text-sm md:text-base tracking-widest text-[#049FD9]">
+          CISCO
+        </span>
+      </div>
+    ),
+  },
+  {
+    name: "ORACLE",
+    renderLogo: () => (
+      <span className="font-black text-base md:text-lg tracking-widest text-[#F80000]">
+        ORACLE
+      </span>
+    ),
+  },
+];
 
 export default function PartnersSection() {
-  const partners = [
-    { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", link: "https://google.com" },
-    { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", link: "https://amazon.com" },
-    { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg", link: "https://microsoft.com" },
-    { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", link: "https://apple.com" },
-    { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg", link: "https://ibm.com" },
-    { name: "Samsung", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Samsung_logo_blue.png/960px-Samsung_logo_blue.png", link: "https://samsung.com" },
-    { name: "Oracle", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg", link: "https://oracle.com" },
-    { name: "Cisco", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Cisco_logo_blue_2016.svg/1280px-Cisco_logo_blue_2016.svg.png", link: "https://cisco.com" },
-    { name: "NVIDIA", logo: "https://upload.wikimedia.org/wikipedia/sco/thumb/2/21/Nvidia_logo.svg/1280px-Nvidia_logo.svg.png", link: "https://nvidia.com" },
-    { name: "Intel", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Intel_logo_2023.svg/960px-Intel_logo_2023.svg.png", link: "https://intel.com" },
-    { name: "Dell", logo: "https://upload.wikimedia.org/wikipedia/commons/4/48/Dell_Logo.svg", link: "https://dell.com" },
-    { name: "Sony", logo: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg", link: "https://sony.com" },
-    { name: "LG", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/LG_logo_%282014%29.svg/960px-LG_logo_%282014%29.svg.png", link: "https://lg.com" },
-    { name: "Huawei", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Huawei_Standard_logo.svg/250px-Huawei_Standard_logo.svg.png", link: "https://huawei.com" },
-    { name: "Facebook", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg", link: "https://facebook.com" },
-    { name: "Spotify", logo: "https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg", link: "https://spotify.com" },
-    { name: "Netflix", logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", link: "https://netflix.com" },
-    { name: "PayPal", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg", link: "https://paypal.com" },
-    { name: "eBay", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/EBay_logo.svg", link: "https://ebay.com" },
-    { name: "Slack", logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Slack_Icon.png", link: "https://slack.com" },
-    { name: "Zoom", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Zoom_Communications_Logo.svg", link: "https://zoom.us" },
-    { name: "GitHub", logo: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg", link: "https://github.com" },
-  ];
-
   return (
-    <section id="partners" className="py-10">
-      <div className="text-center">
-        <div data-aos="fade-up">
-          <div className="text-red-700 text-center font-bold text-sm uppercase mb-2">OUR Partners</div>
-          <h2 className="text-3xl font-extrabold text-center mb-3" style={quicksand.style}>Đối tác liên kết</h2>
-          <div className="title-separator"></div>
+    <section id="partners" className="py-14 md:py-16 bg-white border-t border-slate-100">
+      <div className="container mx-auto px-4 max-w-7xl">
+        {/* Header Section */}
+        <div className="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-bold uppercase tracking-wider mb-3">
+            MẠNG LƯỚI DOANH NGHIỆP
+          </div>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-3 font-[family-name:var(--font-plus-jakarta-sans)]">
+            Đối Tác Liên Kết &amp; Hợp Tác Công Nghệ
+          </h2>
+          <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+            Khoa CNTT - ĐH Hải Phòng liên kết chặt chẽ với các tập đoàn công nghệ toàn cầu và doanh nghiệp phần mềm hàng đầu trong đào tạo, thực tập và việc làm.
+          </p>
         </div>
-        <div className="pt-10">
-          <Swiper
-            modules={[Autoplay]}
-            autoplay={{
-              delay: 0,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            speed={3000}
-            loop
-            slidesPerView={6}
-            spaceBetween={30}
-            className="partners-swiper"
-          >
-            {partners.concat(partners).map((partner, index) => (
-              <SwiperSlide key={index} className="w-auto">
-                <a
-                  href={partner.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block"
-                >
-                  <img
-                    src={partner.logo}
-                    alt={`${partner.name} Logo`}
-                    width={150}
-                    height={100}
-                    className="object-contain h-16 mx-auto"
-                    loading="lazy"
-                  />
-                </a>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+
+        {/* 12 Partner Cards Grid */}
+        <div
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 mt-10"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          {partners.map((partner, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-xl border border-slate-100 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:shadow-md hover:border-slate-200 transition-all duration-300 flex items-center justify-center h-16 md:h-20 px-4 group cursor-default select-none"
+            >
+              {partner.renderLogo()}
+            </div>
+          ))}
         </div>
       </div>
     </section>
